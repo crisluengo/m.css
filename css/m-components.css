@@ -376,6 +376,7 @@ table.m-table {
   border-collapse: collapse;
   margin-left: auto;
   margin-right: auto;
+  margin-bottom: 1rem;
 }
 table.m-table.m-big {
   margin-top: 1.75rem;
@@ -389,27 +390,33 @@ table.m-table:not(.m-flat) tbody tr:hover {
 table.m-table th, table.m-table td {
   vertical-align: top;
   border-style: solid;
-  border-top-width: 0.0625rem;
-  border-left-width: 0;
-  border-right-width: 0;
-  border-bottom-width: 0;
+  border-width: 0;
   border-color: var(--line-color);
+  padding: 0.1rem 0.3rem;
 }
 table.m-table caption {
   padding-bottom: 0.5rem;
 }
 table.m-table thead tr:first-child th, table.m-table thead tr:first-child td {
   border-top-width: 0.125rem;
+  padding-top: 0.5rem;
 }
 table.m-table thead th, table.m-table thead td {
   border-bottom-width: 0.125rem;
+  padding-bottom: 0.5rem;
   vertical-align: bottom;
 }
 table.m-table tfoot th, table.m-table tfoot td {
   border-top-width: 0.125rem;
+  padding-top: 0.5rem;
 }
-table.m-table th, table.m-table td {
-  padding: 0.5rem;
+table.m-table tbody tr:first-child th, table.m-table tbody tr:first-child td {
+  border-top-width: 0.125rem;
+  padding-top: 0.5rem;
+}
+table.m-table tbody tr:last-child th, table.m-table tbody tr:last-child td {
+  border-bottom-width: 0.125rem;
+  padding-bottom: 0.5rem;
 }
 table.m-table.m-big th, table.m-table.m-big td {
   padding: 0.75rem 1rem;
