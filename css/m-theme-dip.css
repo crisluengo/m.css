@@ -1,0 +1,203 @@
+/*
+    This file is part of m.css.
+
+    Copyright © 2017, 2018, 2019 Vladimír Vondruš <mosra@centrum.cz>
+
+    Permission is hereby granted, free of charge, to any person obtaining a
+    copy of this software and associated documentation files (the "Software"),
+    to deal in the Software without restriction, including without limitation
+    the rights to use, copy, modify, merge, publish, distribute, sublicense,
+    and/or sell copies of the Software, and to permit persons to whom the
+    Software is furnished to do so, subject to the following conditions:
+
+    The above copyright notice and this permission notice shall be included
+    in all copies or substantial portions of the Software.
+
+    THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+    IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+    FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL
+    THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+    LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
+    FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER
+    DEALINGS IN THE SOFTWARE.
+*/
+
+/* Colors based on a basic complimentary color scheme.
+
+                         base   darker  darkest lighter lightest
+Primary color (orange): ff7400  bf7130  a64b00  ff9640  ffb273
+Secondary color (blue): 009999  1d7373  006363  33cccc  5ccccc
+
+*/
+
+
+:root {
+  /* Color scheme */
+  --cs-primary-base: #ff7400;
+  --cs-primary-darker: #bf7130;
+  --cs-primary-darkest: #a64b00;
+  --cs-primary-lighter: #ffa866;
+  --cs-primary-lightest: #ffe3cc;
+  --cs-secondary-base: #00b3b3;
+  --cs-secondary-darker: #1d7373;
+  --cs-secondary-darkest: #006666;
+  --cs-secondary-lighter: #59d9d9;
+  --cs-secondary-lightest: #add9d9;
+
+
+  /* Text properties */
+  --font: 'Libre Baskerville', serif;
+  --code-font: 'Source Code Pro', monospace;
+  --font-size: 13px;
+  --code-font-size: 0.95em; /* *not* rem, so it follows surrounding font size */
+  --line-height: 1.5;
+  --paragraph-indent: 0; /*1.5rem;*/
+  --paragraph-align: justify;
+  --link-decoration: underline;
+  --link-decoration-nav: none;
+  --link-decoration-heading: none;
+  --nav-brand-case: none;
+  --nav-menu-case: lowercase;
+  --nav-heading-case: uppercase;
+  --nav-categories-case: lowercase;
+  --landing-header-case: lowercase;
+  --heading-font-weight: normal;
+
+  /* Shapes */
+  --border-radius: 0.2rem;
+
+  /* Basics */
+  --background-color: #ffffff;
+  --color: #000000;
+  --line-color: var(--cs-primary-base);
+  --link-color: var(--cs-primary-base);
+  --link-active-color: var(--cs-primary-darker);
+  --link-self-color: var(--cs-primary-darker);
+  --link-self-active-color: var(--cs-primary-darkest);
+  --mark-color: #000000;
+  --mark-background-color: var(--cs-secondary-lightest);
+  --code-color: var(--cs-primary-darkest);
+  --code-inverted-color: var(--cs-primary-lightest);
+  --code-background-color: #f7f7f7;
+  --code-header-background-color: var(--cs-primary-lighter);
+  --code-header-link-color: var(--cs-primary-darkest);
+  --code-header-link-active-color: var(--cs-primary-darker);
+  --code-header-self-color: #ffffff;
+  --code-header-self-active-color: var(--cs-primary-lightest);
+  --code-note-color: inherit;
+  --code-note-background-color: inherit;
+  --console-color: var(--code-color);
+  --console-inverted-color: var(--code-inverted-color);
+  --console-background-color: #ffffff;
+  --button-background-color: #ffffff;
+
+  /* Header */
+  --header-border-width: 0.25rem 0 0 0;
+  --header-color: #000000;
+  --header-background-color: #ffffff;
+  --header-background-color-landing: rgba(255, 255, 255, 0.75);
+  --header-background-color-jumbo: rgba(255, 255, 255, 0.25);
+  --header-link-color: #000000;
+  --header-link-active-color: var(--cs-secondary-lighter);
+  --header-link-current-color: var(--cs-secondary-base);
+  --header-link-active-background-color: #ffffff;
+  --header-link-active-background-color: rgba(255, 255, 255, 0.5);
+
+  /* Footer */
+  --footer-font-size: 0.85rem;
+  --footer-color: var(--cs-primary-lightest);
+  --footer-background-color: var(--cs-primary-base);
+  --footer-link-color: #ffffff;
+  --footer-link-active-color: var(--cs-primary-lighter);
+
+  /* Cover image */
+  --cover-image-background-color: #666666;
+
+  /* Search (used only by m-documentation.css) */
+  --search-overlay-color: var(--header-background-color-landing);
+  --search-background-color: var(--header-background-color);
+
+  /* Article */
+  --article-header-color: #7a7a7a;
+  --article-footer-color: #969696;
+  --article-heading-color: var(--cs-primary-base);
+  --article-heading-active-color: var(--cs-primary-darker);
+
+  /* Right navigation panel */
+  --navpanel-link-color: #292929;
+  --navpanel-link-active-color: var(--cs-primary-base);
+
+  /* Plots */
+  --plot-background-color: var(--cs-primary-lightest);
+  --plot-error-color: #000000;
+
+  /* Colored components */
+  --default-color: #000000;
+  --default-link-active-color: var(--cs-primary-base);
+  --default-filled-color: #000000;
+  --default-filled-background-color: var(--cs-primary-lightest);
+  --default-filled-link-color: var(--cs-primary-darker);
+  --default-filled-link-active-color: var(--cs-primary-darkest);
+  --default-filled-code-color: var(--cs-primary-darkest);
+  --default-filled-code-background-color: var(--cs-primary-lightest);
+
+  --primary-color: var(--cs-primary-base);
+  --primary-link-active-color: var(--cs-primary-darker);
+  --primary-filled-color: #ffffff;
+  --primary-filled-background-color: var(--cs-primary-base);
+  --primary-filled-link-color: var(--cs-primary-lightest);
+  --primary-filled-link-active-color: var(--cs-primary-lighter);
+  --primary-filled-code-color: #e6e6e6;
+  --primary-filled-code-background-color: var(--cs-primary-base);
+
+  --success-color: var(--cs-primary-darker);
+  --success-link-active-color: var(--cs-primary-darkest);
+  --success-filled-color: #ffffff;
+  --success-filled-background-color: var(--cs-primary-darker);
+  --success-filled-link-color: var(--cs-primary-lightest);
+  --success-filled-link-active-color: var(--cs-primary-lighter);
+  --success-filled-code-color: #e6e6e6;
+  --success-filled-code-background-color: var(--cs-primary-darker);
+
+  --warning-color: var(--cs-secondary-lighter);
+  --warning-link-active-color: var(--cs-secondary-darker);
+  --warning-filled-color: #000000;
+  --warning-filled-background-color: var(--cs-secondary-lighter);
+  --warning-filled-link-color: var(--cs-secondary-darker);
+  --warning-filled-link-active-color: var(--cs-secondary-darkest);
+  --warning-filled-code-color: var(--cs-secondary-darkest);
+  --warning-filled-code-background-color: var(--cs-secondary-lighter);
+
+  --danger-color: var(--cs-secondary-darker);
+  --danger-link-active-color: var(--cs-secondary-darkest);
+  --danger-filled-color: #ffffff;
+  --danger-filled-background-color: var(--cs-secondary-darker);
+  --danger-filled-link-color: var(--cs-secondary-lightest);
+  --danger-filled-link-active-color: var(--cs-secondary-lighter);
+  --danger-filled-code-color: #e6e6e6;
+  --danger-filled-code-background-color: var(--cs-secondary-darker);
+
+  --info-color: var(--cs-primary-lighter);
+  --info-link-active-color: var(--cs-primary-base);
+  --info-filled-color: #000000;
+  --info-filled-background-color: var(--cs-primary-lighter);
+  --info-filled-link-color: var(--cs-primary-darker);
+  --info-filled-link-active-color: var(--cs-primary-darkest);
+  --info-filled-code-color: var(--cs-primary-darkest);
+  --info-filled-code-background-color: var(--cs-primary-lighter);
+
+  --dim-color: #808080;
+  --dim-link-color: var(--cs-primary-lighter);
+  --dim-link-active-color: var(--cs-primary-base);
+  --dim-filled-color: #000000;
+  --dim-filled-background-color: #e6e6e6;
+  --dim-filled-link-color: var(--cs-primary-base);
+  --dim-filled-link-active-color: var(--cs-primary-darker);
+  --dim-button-active-color: #c0c0c0;
+  --dim-filled-code-color: var(--cs-primary-darker);
+  --dim-filled-code-background-color: #e6e6e6;
+}
+
+.m-smaller-font{
+  font-size: 75%;
+}

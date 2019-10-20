@@ -40,10 +40,29 @@ h1, h2, h3, h4, h5, h6 {
   font-weight: var(--heading-font-weight);
 }
 h1 {
-  margin-bottom: 1rem;
+  margin-top: 0.5rem;
+  margin-bottom: 1.5rem;
+  font-size: 2em;
 }
-h2, h3, h4, h5, h6 {
+h2 {
+  margin-top: 2rem;
+  margin-bottom: 1rem;
+  font-size: 1.5em;
+}
+h3 {
+  margin-top: 1rem;
+}
+h3, h4 {
+  font-size: 1.17em;
+}
+h3, h4, h5, h6, p {
   margin-bottom: 0.5rem;
+}
+h5, h6 {
+  font-size: 1em;
+}
+h4, h5 {
+  font-style: italic;
 }
 p, ul, ol, dl {
   margin-top: 0;
@@ -131,6 +150,9 @@ pre.m-console, code.m-console {
 pre {
   padding: 0.5rem 1rem;
   border-radius: var(--border-radius);
+  border-left-style: solid;
+  border-left-width: 0.25rem;
+  border-color: var(--line-color);
   overflow-x: auto;
   margin-top: 0; /* stupid defaults */
 }
@@ -359,9 +381,12 @@ div.m-button a .m-small:last-child {
 /* Label */
 .m-label {
   border-radius: var(--border-radius);
+  border-width: 0.0625rem;
+  border-style: solid;
+  border-color: var(--dim-filled-color);
   font-size: 75%;
   font-weight: normal;
-  padding: 0.125rem 0.25rem;
+  padding: 0.0625rem 0.1875rem;
   vertical-align: 7.5%;
 }
 .m-label.m-flat {
@@ -376,6 +401,7 @@ table.m-table {
   border-collapse: collapse;
   margin-left: auto;
   margin-right: auto;
+  font-size: 0.9em;
   margin-bottom: 1rem;
 }
 table.m-table.m-big {
@@ -384,14 +410,11 @@ table.m-table.m-big {
 div.m-scroll > table.m-table:last-child {
   margin-bottom: 0.0625rem;
 }
-table.m-table:not(.m-flat) tbody tr:hover {
-  background-color: var(--line-color);
-}
 table.m-table th, table.m-table td {
   vertical-align: top;
   border-style: solid;
   border-width: 0;
-  border-color: var(--line-color);
+  border-color: var(--link-active-color);
   padding: 0.1rem 0.3rem;
 }
 table.m-table caption {
@@ -492,7 +515,8 @@ table.m-table th.m-info pre, table.m-table th.m-info code,
 table.m-table tr.m-dim pre, table.m-table tr.m-dim code,
 table.m-table td.m-dim pre, table.m-table td.m-dim code,
 table.m-table th.m-dim pre, table.m-table th.m-dim code {
-  background-color: var(--code-note-background-color);
+  background-color: var(--code-background-color);
+  color: var(--code-color);
 }
 
 /* Image. Ensure everything is done for both <img> and <svg>. */
@@ -645,8 +669,11 @@ figure.m-figure.m-fullwidth:after {
 figure.m-figure figcaption, .m-code-figure figcaption, .m-console-figure figcaption {
   margin-top: 0.5rem;
   margin-bottom: 0.5rem;
-  font-weight: var(--heading-font-weight);
-  font-size: 1.17rem; /* taken from webkit defaults for h3 */
+  font-weight: normal;
+  font-style: italic;
+  font-size: 1rem;
+  text-align: justify;
+  text-align-last: center;
 }
 figure.m-figure figcaption a, .m-code-figure figcaption a, .m-console-figure figcaption a {
   text-decoration: var(--link-decoration-heading);
@@ -908,7 +935,7 @@ pre.m-code span.hll {
 
 /* Inverted code block / inline code */
 .m-code.m-inverted > span, .m-console.m-inverted > span {
-  opacity: 0.3333;
+  opacity: 0.667;
 }
 .m-code.m-inverted > span.hll, .m-console.m-inverted > span.hll {
   opacity: 1;
@@ -1000,6 +1027,7 @@ figure.m-figure:not(.m-flat) > svg.m-graph:first-child {
 .m-block.m-default h3, .m-block.m-default h4, .m-block.m-default h5, .m-block.m-default h6,
 .m-text.m-default, .m-label.m-flat.m-default {
   color: var(--default-color);
+  border-color: var(--default-color);
 }
 .m-block.m-default h3 a, .m-block.m-default h4 a, .m-block.m-default h5 a, .m-block.m-default h6 a {
   color: var(--link-color);
@@ -1009,34 +1037,40 @@ figure.m-figure:not(.m-flat) > svg.m-graph:first-child {
 .m-block.m-primary h3 a, .m-block.m-primary h4 a, .m-block.m-primary h5 a, .m-block.m-primary h6 a,
 .m-text.m-primary, .m-label.m-flat.m-primary {
   color: var(--primary-color);
+  border-color: var(--primary-color);
 }
 .m-block.m-success { border-left-color: var(--success-color); }
 .m-block.m-success h3, .m-block.m-success h4, .m-block.m-success h5, .m-block.m-success h6,
 .m-block.m-success h3 a, .m-block.m-success h4 a, .m-block.m-success h5 a, .m-block.m-success h6 a,
 .m-text.m-success, .m-label.m-flat.m-success {
   color: var(--success-color);
+  border-color: var(--success-color);
 }
 .m-block.m-warning { border-left-color: var(--warning-color); }
 .m-block.m-warning h3, .m-block.m-warning h4, .m-block.m-warning h5, .m-block.m-warning h6,
 .m-block.m-warning h3 a, .m-block.m-warning h4 a, .m-block.m-warning h5 a, .m-block.m-warning h6 a,
 .m-text.m-warning, .m-label.m-flat.m-warning {
   color: var(--warning-color);
+  border-color: var(--warning-color);
 }
 .m-block.m-danger { border-left-color: var(--danger-color); }
 .m-block.m-danger h3, .m-block.m-danger h4, .m-block.m-danger h5, .m-block.m-danger h6,
 .m-block.m-danger h3 a, .m-block.m-danger h4 a, .m-block.m-danger h5 a, .m-block.m-danger h6 a,
 .m-text.m-danger, .m-label.m-flat.m-danger {
   color: var(--danger-color);
+  border-color: var(--danger-color);
 }
 .m-block.m-info { border-left-color: var(--info-color); }
 .m-block.m-info h3, .m-block.m-info h4, .m-block.m-info h5, .m-block.m-info h6,
 .m-block.m-info h3 a, .m-block.m-info h4 a, .m-block.m-info h5 a, .m-block.m-info h6 a,
 .m-text.m-info, .m-label.m-flat.m-info {
   color: var(--info-color);
+  border-color: var(--info-color);
 }
 .m-block.m-dim { border-left-color: var(--dim-color); }
 .m-block.m-dim, .m-text.m-dim, .m-label.m-flat.m-dim {
   color: var(--dim-color);
+  border-color: var(--dim-color);
 }
 .m-block.m-dim a, .m-text.m-dim a { color: var(--dim-link-color); }
 .m-block.m-dim a:hover, .m-block.m-dim a:focus, .m-block.m-dim a:active,
@@ -1088,7 +1122,10 @@ figure.m-figure:not(.m-flat) > svg.m-graph:first-child {
 }
 
 /* Colored button, non-flat label */
-div.m-button a, .m-label { color: var(--button-background-color); }
+div.m-button a, .m-label {
+  color: var(--button-background-color);
+  border-color: var(--button-background-color);
+}
 div.m-button.m-flat a { color: var(--color); }
 div.m-button.m-flat a:hover, div.m-button.m-default a:focus, div.m-button.m-default a:active {
   color: var(--link-active-color);
@@ -1143,10 +1180,17 @@ table.m-table tr.m-default td a:active, table.m-table td.m-default a:active,
 table.m-table tr.m-default th a:active, table.m-table th.m-default a:active {
   color: var(--default-filled-link-active-color);
 }
+.m-note.m-default pre, .m-note.m-default code,
+table.m-table tr.m-default pre, table.m-table tr.m-default code,
+table.m-table td.m-default pre, table.m-table td.m-default code,
+table.m-table th.m-default pre, table.m-table th.m-default code {
+  background-color: var(--default-filled-code-background-color);
+  color: var(--default-filled-code-color);
+}
 .m-note.m-primary a,
 table.m-table tr.m-primary td a, table.m-table td.m-primary a,
 table.m-table tr.m-primary th a, table.m-table th.m-primary a {
-  color: var(--default-filled-link-color);
+  color: var(--primary-filled-link-color);
 }
 .m-note.m-primary,
 table.m-table tr.m-primary td, table.m-table td.m-primary,
@@ -1170,6 +1214,13 @@ table.m-table tr.m-primary td a:active, table.m-table td.m-primary a:active,
 table.m-table tr.m-primary th a:active, table.m-table th.m-primary a:active {
   color: var(--primary-filled-link-active-color);
 }
+.m-note.m-primary pre, .m-note.m-primary code,
+table.m-table tr.m-primary pre, table.m-table tr.m-primary code,
+table.m-table td.m-primary pre, table.m-table td.m-primary code,
+table.m-table th.m-primary pre, table.m-table th.m-primary code {
+  background-color: var(--primary-filled-code-background-color);
+  color: var(--primary-filled-code-color);
+}
 .m-note.m-success,
 table.m-table tr.m-success td, table.m-table td.m-success,
 table.m-table tr.m-success th, table.m-table th.m-success {
@@ -1192,13 +1243,22 @@ table.m-table tr.m-success td a:active, table.m-table td.m-success a:active,
 table.m-table tr.m-success th a:active, table.m-table th.m-success a:active {
   color: var(--success-filled-link-active-color);
 }
-.m-note.m-warning, table.m-table tr.m-warning td, table.m-table td.m-warning,
-                   table.m-table tr.m-warning th, table.m-table th.m-warning {
+.m-note.m-success pre, .m-note.m-success code,
+table.m-table tr.m-success pre, table.m-table tr.m-success code,
+table.m-table td.m-success pre, table.m-table td.m-success code,
+table.m-table th.m-success pre, table.m-table th.m-success code {
+  background-color: var(--success-filled-code-background-color);
+  color: var(--success-filled-code-color);
+}
+.m-note.m-warning,
+table.m-table tr.m-warning td, table.m-table td.m-warning,
+table.m-table tr.m-warning th, table.m-table th.m-warning {
   background-color: var(--warning-filled-background-color);
   color: var(--warning-filled-color);
 }
-.m-note.m-warning a, table.m-table tr.m-warning td a, table.m-table td.m-warning a,
-                     table.m-table tr.m-warning th a, table.m-table th.m-warning a {
+.m-note.m-warning a,
+table.m-table tr.m-warning td a, table.m-table td.m-warning a,
+table.m-table tr.m-warning th a, table.m-table th.m-warning a {
   color: var(--warning-filled-link-color);
 }
 .m-note.m-warning a:hover,
@@ -1211,6 +1271,13 @@ table.m-table tr.m-warning th a:focus, table.m-table th.m-warning a:focus,
 table.m-table tr.m-warning td a:active, table.m-table td.m-warning a:active,
 table.m-table tr.m-warning th a:active, table.m-table th.m-warning a:active {
   color: var(--warning-filled-link-active-color);
+}
+.m-note.m-warning pre, .m-note.m-warning code,
+table.m-table tr.m-warning pre, table.m-table tr.m-warning code,
+table.m-table td.m-warning pre, table.m-table td.m-warning code,
+table.m-table th.m-warning pre, table.m-table th.m-warning code {
+  background-color: var(--warning-filled-code-background-color);
+  color: var(--warning-filled-code-color);
 }
 .m-note.m-danger,
 table.m-table tr.m-danger td, table.m-table td.m-danger,
@@ -1234,6 +1301,13 @@ table.m-table tr.m-danger td a:active, table.m-table td.m-danger a:active,
 table.m-table tr.m-danger th a:active, table.m-table th.m-danger a:active {
   color: var(--danger-filled-link-active-color);
 }
+.m-note.m-danger pre, .m-note.m-danger code,
+table.m-table tr.m-danger pre, table.m-table tr.m-danger code,
+table.m-table td.m-danger pre, table.m-table td.m-danger code,
+table.m-table th.m-danger pre, table.m-table th.m-danger code {
+  background-color: var(--danger-filled-code-background-color);
+  color: var(--danger-filled-code-color);
+}
 .m-note.m-info,
 table.m-table tr.m-info td, table.m-table td.m-info,
 table.m-table tr.m-info th, table.m-table th.m-info {
@@ -1256,6 +1330,13 @@ table.m-table tr.m-info td a:active, table.m-table td.m-info a:active,
 table.m-table tr.m-info th a:active, table.m-table th.m-info a:active {
   color: var(--info-filled-link-active-color);
 }
+.m-note.m-info pre, .m-note.m-info code,
+table.m-table tr.m-info pre, table.m-table tr.m-info code,
+table.m-table td.m-info pre, table.m-table td.m-info code,
+table.m-table th.m-info pre, table.m-table th.m-info code {
+  background-color: var(--info-filled-code-background-color);
+  color: var(--info-filled-code-color);
+}
 .m-note.m-dim,
 table.m-table tr.m-dim td, table.m-table td.m-dim,
 table.m-table tr.m-dim th, table.m-table th.m-dim {
@@ -1277,6 +1358,13 @@ table.m-table tr.m-dim th a:focus, table.m-table th.m-dim a:focus,
 table.m-table tr.m-dim td a:active, table.m-table td.m-dim a:active,
 table.m-table tr.m-dim th a:active, table.m-table th.m-dim a:active {
   color: var(--dim-filled-link-active-color);
+}
+.m-note.m-dim pre, .m-note.m-dim code,
+table.m-table tr.m-dim pre, table.m-table tr.m-dim code,
+table.m-table td.m-dim pre, table.m-table td.m-dim code,
+table.m-table th.m-dim pre, table.m-table th.m-dim code {
+  background-color: var(--dim-filled-code-background-color);
+  color: var(--dim-filled-code-color);
 }
 
 /* Colored figure */
@@ -1631,4 +1719,9 @@ li:last-child > div.m-math:last-child, li:last-child > div.m-math.m-nopadb,
 li:last-child > div.m-graph:last-child, li:last-child > div.m-graph.m-nopadb,
 li:last-child > div.m-plot:last-child, li:last-child > div.m-plot.m-nopadb {
   margin-bottom: 0;
+}
+
+/* Lists can be declared as being spaced out */
+ul.m-spaced-list > li, ol.m-spaced-list > li {
+  margin-bottom: 1rem;
 }

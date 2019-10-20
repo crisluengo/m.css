@@ -241,6 +241,12 @@ def make_include(state: State, file) -> Tuple[str, str]:
         return (html.escape('<{}>'.format(file)), state.compounds[state.includes[file]].url)
     return None
 
+# NOTE!!! This is specific to the DIPlib documentation!
+def fix_diplib_header(file) -> str:
+    if file.startswith('diplib/library/'):
+        return 'diplib.h'
+    return file
+
 def parse_id_and_include(state: State, element: ET.Element) -> Tuple[str, str, str, Tuple[str, str], bool]:
     # Returns URL base (usually saved to state.current_definition_url_base and
     # used by extract_id_hash() later), base URL (with file extension), and the
@@ -255,6 +261,7 @@ def parse_id_and_include(state: State, element: ET.Element) -> Tuple[str, str, s
     if state.current_kind in ['namespace', 'group']:
         location_attribs = element.find('location').attrib
         file = location_attribs['declfile'] if 'declfile' in location_attribs else location_attribs['file']
+        file = fix_diplib_header(file)
         include = make_include(state, file)
 
         # If the include for current namespace is not yet set (empty string)
@@ -263,7 +270,7 @@ def parse_id_and_include(state: State, element: ET.Element) -> Tuple[str, str, s
         # information from the compound, because namespace location is
         # sometimes pointed to a *.cpp file, which Doxygen sees before *.h.
         if not state.current_include and state.current_include is not None:
-            assert state.current_kind == 'namespace'
+            assert state.current_kind == 'namespace' or state.current_kind == 'group' # Change for DIPlib: groups should have an include file too
             state.current_include = file
             # parse_xml() fills compound.include from this later
 
@@ -284,6 +291,7 @@ def parse_id_and_include(state: State, element: ET.Element) -> Tuple[str, str, s
     if state.current_kind in ['class', 'struct', 'union']:
         location_attribs = element.find('location').attrib
         file = location_attribs['declfile'] if 'declfile' in location_attribs else location_attribs['file']
+        file = fix_diplib_header(file)
         if state.current_include != file:
             include = make_include(state, file)
             has_details = include and state.doxyfile['SHOW_INCLUDE_FILES']
@@ -315,7 +323,7 @@ def fix_type_spacing(type: str) -> str:
         .replace('&lt; ', '&lt;')
         .replace(' &gt;', '&gt;')
         .replace(' &amp;', '&amp;')
-        .replace(' *', '*'))
+        .replace(' *', '*').replace(' *', '*')) # Repeating this replacement fixes some weird formatting issue within DIPlib docs
 
 def parse_type(state: State, type: ET.Element) -> str:
     # Constructors and typeless enums might not have it
@@ -732,7 +740,7 @@ def parse_desc_internal(state: State, element: ET.Element, immediate_parent: ET.
             out.parsed += '<blockquote>{}</blockquote>'.format(parse_desc(state, i))
 
         elif i.tag in ['itemizedlist', 'orderedlist']:
-            assert element.tag in ['para', '{http://mcss.mosra.cz/doxygen/}div']
+            assert element.tag in ['para', '{http://mcss.mosra.cz/doxygen/}div', 'simplesect'] # The DIPlib-specific \literature tag generates a list within a simpleselect tag
             has_block_elements = True
             tag = 'ul' if i.tag == 'itemizedlist' else 'ol'
             out.parsed += '<{}{}>'.format(tag,
@@ -834,9 +842,14 @@ def parse_desc_internal(state: State, element: ET.Element, immediate_parent: ET.
                     if i.attrib['kind'] == 'see':
                         title = 'See also'
                         css_class = 'm-default'
+                    elif i.attrib['kind'] == 'literature':
+                        # This tag is specific to DIPlib
+                        title = 'Literature'
+                        css_class = 'm-default'
                     elif i.attrib['kind'] == 'note':
                         title = 'Note'
                         css_class = 'm-info'
+                        logging.warning("Please don't use \\note in the DIPlib documentation")
                     elif i.attrib['kind'] == 'attention':
                         title = 'Attention'
                         css_class = 'm-warning'
@@ -873,9 +886,10 @@ def parse_desc_internal(state: State, element: ET.Element, immediate_parent: ET.
                     elif i.attrib['kind'] == 'remark':
                         title = 'Remark'
                         css_class = 'm-default'
+                        logging.warning("Please don't use \\remark in the DIPlib documentation")
                     elif i.attrib['kind'] == 'par':
                         title = html.escape(i.findtext('title', ''))
-                        css_class = 'm-default'
+                        css_class = 'm-dim' # Change for DIPlib docs: I like this coloring better here
                     elif i.attrib['kind'] == 'rcs':
                         title = html.escape(i.findtext('title', ''))
                         css_class = 'm-default'
@@ -1207,6 +1221,8 @@ def parse_desc_internal(state: State, element: ET.Element, immediate_parent: ET.
             # Custom mapping of filenames to languages
             mapping = [('.h', 'c++'),
                        ('.h.cmake', 'c++'),
+                       ('.m', 'matlab'), # The .m extension is ambiguous, we always want to do MATLAB here (DIPlib specific).
+                       ('.txt', 'text'), # The .txt extension is ambiguous, we always want to do no lexing here (DIPlib specific).
                        # Pygments knows only .vert, .frag, .geo
                        ('.glsl', 'glsl'),
                        ('.conf', 'ini'),
@@ -2594,6 +2610,7 @@ def parse_xml(state: State, xml: str):
     if compound.kind in ['struct', 'class', 'union'] or (compound.kind == 'namespace' and compounddef.find('innerclass') is None and compounddef.find('innernamespace') is None and compounddef.find('sectiondef') is None):
         location_attribs = compounddef.find('location').attrib
         file = location_attribs['declfile'] if 'declfile' in location_attribs else location_attribs['file']
+        file = fix_diplib_header(file)
         compound.include = make_include(state, file)
 
         # Save include for current compound. Every enum/var/function/... parser
@@ -2615,11 +2632,14 @@ def parse_xml(state: State, xml: str):
     # it and resets to None in case the include differs for given entry,
     # meaning all entries need to have their own include definition instead.
     # That's then finally reflected in has_details of each entry.
-    elif compound.kind == 'namespace' and compounddef.find('innerclass') is None and compounddef.find('innernamespace') is None:
+
+    # Change for DIPlib: groups should have an include file too
+    #elif compound.kind == 'namespace' and compounddef.find('innerclass') is None and compounddef.find('innernamespace') is None:
+    elif compound.kind == 'namespace' or compound.kind == 'group':
         state.current_include = ''
 
     # Files and dirs don't need it (it's implicit); and it makes no sense for
-    # pages or modules.
+    # pages.
     else:
         state.current_include = None
 
@@ -3170,8 +3190,8 @@ def parse_xml(state: State, xml: str):
     # #include (for all others the include info is either on a compound itself
     # or nowhere at all)
     if state.doxyfile['SHOW_INCLUDE_FILES'] and compound.kind in ['namespace', 'group']:
-        # If we're in a namespace, its include info comes from inside
-        if compound.kind == 'namespace' and state.current_include:
+        # If we're in a namespace or a group (DIPlib specific), its include info comes from inside
+        if state.current_include:
             compound.include = make_include(state, state.current_include)
 
         # If we discovered that entries of this compound don't have a common
